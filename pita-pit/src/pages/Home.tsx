@@ -945,19 +945,6 @@ function HomeMenuSection() {
             </span>
           )}
         </div>
-        {cat.img && (
-          <img
-            key={cat.key}
-            src={cat.img}
-            alt={cat.label}
-            className="flex-shrink-0 object-contain"
-            style={{
-              height: "88px",
-              width: "auto",
-              filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.7))",
-            }}
-          />
-        )}
       </div>
 
       {/* ── items ── */}
