@@ -13,6 +13,18 @@
     <meta name="twitter:title" content="Pita Pit 2" />
     <meta name="twitter:description" content="Pita Pit 2 — built on Replit. Update this description to reflect the app." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // GitHub Pages SPA redirect handler
+      (function(){
+        var p = window.location.search.match(/[?&]p=([^&]*)/);
+        if (p) {
+          var path = decodeURIComponent(p[1].replace(/~and~/g, '&'));
+          var q = window.location.search.match(/[?&]q=([^&]*)/);
+          var query = q ? '?' + decodeURIComponent(q[1].replace(/~and~/g, '&')) : '';
+          window.history.replaceState(null, null, '/Biskra' + path + query + window.location.hash);
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
