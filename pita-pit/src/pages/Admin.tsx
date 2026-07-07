@@ -155,31 +155,12 @@ export default function Admin() {
     const k = keyInput.trim();
     if (!k) { setLoginErr("Entrez le mot de passe"); return; }
 
-    const finishLogin = () => {
-      const jbKey = (import.meta.env.VITE_JSONBIN_KEY as string | undefined) || "";
-      if (jbKey) setMasterKey(jbKey);
-      setAdminAuthed();
-      setAuthed(true);
-      setLoginErr("");
-    };
-
-    const verifyClientSide = () => k === "pitapit22030";
-
-    try {
-      const res = await fetch("/api/admin/verify", {
-        method: "POST",
-        headers: { "x-admin-token": k },
-      });
-      if (!res.ok) { setLoginErr("Mot de passe incorrect"); return; }
-      finishLogin();
-    } catch {
-      // No API server (e.g. GitHub Pages) — verify client-side
-      if (await verifyClientSide()) {
-        finishLogin();
-      } else {
-        setLoginErr("Mot de passe incorrect");
-      }
-    }
+    if (k !== "pitapit22030") { setLoginErr("Mot de passe incorrect"); return; }
+    const jbKey = (import.meta.env.VITE_JSONBIN_KEY as string | undefined) || "";
+    if (jbKey) setMasterKey(jbKey);
+    setAdminAuthed();
+    setAuthed(true);
+    setLoginErr("");
   };
 
   /* ─── Orders subscription ────────────────────────────────────────── */
