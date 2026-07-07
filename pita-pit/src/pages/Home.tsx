@@ -1153,7 +1153,7 @@ function HeroSection({ active }: { active: boolean }) {
       <div className="absolute inset-0 flex items-center justify-between px-5 sm:px-10 md:px-14 pt-24 pb-20 z-10">
 
         {/* Left — title block */}
-        <div className="hero-title-group flex flex-col justify-center flex-1 min-w-0 pt-24 sm:pt-0">
+        <div className="hero-title-group flex flex-col justify-center flex-1 min-w-0 pt-24 sm:pt-20">
 
           {/* Eyebrow */}
           <div className="overflow-hidden mb-5 sm:mb-6">
