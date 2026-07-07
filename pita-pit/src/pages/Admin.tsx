@@ -52,6 +52,51 @@ const btn = (color = G, fill = false) => ({
   transition: "all .15s",
 });
 
+/* ─── Notification sound (Web Audio API) ──────────────────────────────── */
+function playOrderAlert() {
+  try {
+    const ctx = new AudioContext();
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.8, ctx.currentTime);
+    master.connect(ctx.destination);
+
+    // Three rising tones — punchy alert feel
+    const tones = [
+      { freq: 520, start: 0,    dur: 0.18 },
+      { freq: 660, start: 0.18, dur: 0.18 },
+      { freq: 880, start: 0.36, dur: 0.32 },
+    ];
+    tones.forEach(({ freq, start, dur }) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "square";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      gain.gain.setValueAtTime(0, ctx.currentTime + start);
+      gain.gain.linearRampToValueAtTime(0.6, ctx.currentTime + start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      osc.connect(gain);
+      gain.connect(master);
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + dur);
+    });
+
+    // Low thump underneath
+    const thump = ctx.createOscillator();
+    const thumpGain = ctx.createGain();
+    thump.type = "sine";
+    thump.frequency.setValueAtTime(110, ctx.currentTime);
+    thump.frequency.exponentialRampToValueAtTime(55, ctx.currentTime + 0.25);
+    thumpGain.gain.setValueAtTime(1, ctx.currentTime);
+    thumpGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    thump.connect(thumpGain);
+    thumpGain.connect(master);
+    thump.start(ctx.currentTime);
+    thump.stop(ctx.currentTime + 0.25);
+
+    setTimeout(() => ctx.close(), 1200);
+  } catch { /* browser blocked autoplay — ignore */ }
+}
+
 /* ─── Mini toast ───────────────────────────────────────────────────────── */
 function Toast({ msg, ok }: { msg: string; ok: boolean }) {
   return (
@@ -86,6 +131,7 @@ export default function Admin() {
   /* ── orders ── */
   const [orders, setOrders]       = useState<Order[]>([]);
   const unsubRef                  = useRef<Unsubscribe | null>(null);
+  const knownIdsRef               = useRef<Set<string> | null>(null); // null = first load
 
   /* ── menu ── */
   const [juices, setJuices]           = useState<SeedJuice[]>([]);
@@ -132,7 +178,21 @@ export default function Admin() {
     unsubRef.current?.();
     const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
     unsubRef.current = onSnapshot(q, (snap) => {
-      setOrders(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Order)));
+      const incoming = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Order));
+
+      // First snapshot → just record known IDs, no sound
+      if (knownIdsRef.current === null) {
+        knownIdsRef.current = new Set(incoming.map((o) => o.id));
+      } else {
+        // Detect genuinely new orders (not seen before)
+        const hasNew = incoming.some((o) => !knownIdsRef.current!.has(o.id));
+        if (hasNew) {
+          playOrderAlert();
+          incoming.forEach((o) => knownIdsRef.current!.add(o.id));
+        }
+      }
+
+      setOrders(incoming);
     }, () => { /* ignore permission errors */ });
   }, []);
 
