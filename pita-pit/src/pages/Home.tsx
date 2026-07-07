@@ -484,7 +484,7 @@ const JUS_ITEMS = [
     border: "rgba(255,140,0,0.35)",
     items: ["100% Pur Jus", "Pressé à froid"],
     price: 150, oldPrice: 200, discount: 25,
-    img: "/juices/orange.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/orange.png`, blend: "normal",
   },
   {
     id: "jus-citron", num: "02", name: "CITRON", subtitle: "Acidité & Vitalité",
@@ -492,7 +492,7 @@ const JUS_ITEMS = [
     border: "rgba(212,230,0,0.30)",
     items: ["Citron Frais", "Menthe & Miel"],
     price: 150, oldPrice: 180, discount: 17,
-    img: "/juices/citron.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/citron.png`, blend: "normal",
   },
   {
     id: "jus-fraise", num: "03", name: "FRAISE", subtitle: "Douceur & Plaisir",
@@ -500,7 +500,7 @@ const JUS_ITEMS = [
     border: "rgba(255,32,85,0.35)",
     items: ["Fraises Fraîches", "Lait ou Eau"],
     price: 200, oldPrice: 250, discount: 20,
-    img: "/juices/fraise.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/fraise.png`, blend: "normal",
 
   },
   {
@@ -509,7 +509,7 @@ const JUS_ITEMS = [
     border: "rgba(255,208,0,0.30)",
     items: ["Banane Mûre", "Lait Entier"],
     price: 170, oldPrice: 200, discount: 15,
-    img: "/juices/banane.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/banane.png`, blend: "normal",
   },
   {
     id: "jus-pomme", num: "05", name: "POMME", subtitle: "Légèreté & Santé",
@@ -517,7 +517,7 @@ const JUS_ITEMS = [
     border: "rgba(57,255,20,0.28)",
     items: ["Pomme Verte", "Gingembre Frais"],
     price: 150, oldPrice: 180, discount: 17,
-    img: "/juices/pomme.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/pomme.png`, blend: "normal",
   },
   {
     id: "jus-cocktail", num: "06", name: "COCKTAIL", subtitle: "Mix de Saveurs",
@@ -525,7 +525,7 @@ const JUS_ITEMS = [
     border: "rgba(200,75,255,0.35)",
     items: ["Fruits Mixtes", "Boost Vitaminé"],
     price: 220, oldPrice: 280, discount: 21,
-    img: "/juices/cocktail.png", blend: "normal",
+    img: `${import.meta.env.BASE_URL}juices/cocktail.png`, blend: "normal",
   },
 ];
 
