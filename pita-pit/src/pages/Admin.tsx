@@ -154,20 +154,35 @@ export default function Admin() {
   const doLogin = async () => {
     const k = keyInput.trim();
     if (!k) { setLoginErr("Entrez le mot de passe"); return; }
+
+    const finishLogin = () => {
+      const jbKey = (import.meta.env.VITE_JSONBIN_KEY as string | undefined) || "";
+      if (jbKey) setMasterKey(jbKey);
+      setAdminAuthed();
+      setAuthed(true);
+      setLoginErr("");
+    };
+
+    const verifyClientSide = async () => {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(k));
+      const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+      return hex === "369862075a80c6d427139474abea30b604913cb1d484360abb35572b6d65c81a";
+    };
+
     try {
       const res = await fetch("/api/admin/verify", {
         method: "POST",
         headers: { "x-admin-token": k },
       });
       if (!res.ok) { setLoginErr("Mot de passe incorrect"); return; }
-      // Auto-set JSONBIN key from env so admin doesn't need to enter it manually
-      const jbKey = (import.meta.env.VITE_JSONBIN_KEY as string | undefined) || "";
-      if (jbKey) setMasterKey(jbKey);
-      setAdminAuthed();
-      setAuthed(true);
-      setLoginErr("");
+      finishLogin();
     } catch {
-      setLoginErr("Erreur de connexion au serveur");
+      // No API server (e.g. GitHub Pages) — verify client-side
+      if (await verifyClientSide()) {
+        finishLogin();
+      } else {
+        setLoginErr("Mot de passe incorrect");
+      }
     }
   };
 
