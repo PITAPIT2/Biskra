@@ -29,7 +29,7 @@ export default function Nav() {
       {/* Logo */}
       <Link href="/">
         <img
-          src="/logo-nav.png"
+          src={`${import.meta.env.BASE_URL}logo-nav.png`}
           alt="Pita Pit 2"
           className="w-36 sm:w-56 h-auto object-contain cursor-pointer hover:scale-105 transition-transform duration-200"
           style={{ mixBlendMode: "screen" }}

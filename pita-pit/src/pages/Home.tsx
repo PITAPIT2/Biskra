@@ -1114,7 +1114,7 @@ function HeroSection({ active }: { active: boolean }) {
 
       {/* ── Background ── */}
       <img
-        src="/hero-main.png" alt="" aria-hidden
+        src={`${import.meta.env.BASE_URL}hero-main.png`} alt="" aria-hidden
         className="hero-bg-img absolute inset-0 w-full h-full object-cover object-center"
         style={{ transform: "scale(1.06)", transformOrigin: "center center" }}
       />
@@ -1252,7 +1252,7 @@ function HeroSection({ active }: { active: boolean }) {
 
           {/* Dish image */}
           <img
-            src="/pita-hero.png"
+            src={`${import.meta.env.BASE_URL}pita-hero.png`}
             alt="Pita Pit 2 — Signature Wrap"
             className="relative z-10 object-contain"
             style={{
@@ -1821,7 +1821,7 @@ export default function Home() {
 
         {/* 5.5 ── PITA HERO FULL BLEED ──────────────────────────────────── */}
         <section className="relative h-[80vh] sm:h-[100vh] w-full overflow-hidden z-20 bg-[#050505]">
-          <img src="/pita-hero.png" alt="Pita Pit 2 signature wrap"
+          <img src={`${import.meta.env.BASE_URL}pita-hero.png`} alt="Pita Pit 2 signature wrap"
             className="absolute inset-0 w-full h-full object-cover object-center"
             style={{ filter: "saturate(1.1) brightness(0.75)" }}
           />
@@ -1830,7 +1830,7 @@ export default function Home() {
           {/* Neon logo overlay */}
           <div className="absolute inset-0 flex flex-col items-start justify-center px-6 sm:px-16 md:px-24">
             <div className="max-w-xs sm:max-w-md">
-              <img src="/logo-neon-rain.png" alt="Pita Pit 2"
+              <img src={`${import.meta.env.BASE_URL}logo-neon-rain.png`} alt="Pita Pit 2"
                 className="w-full max-w-[320px] sm:max-w-[440px] h-auto object-contain mb-6"
                 style={{ mixBlendMode: "screen", filter: "drop-shadow(0 0 30px rgba(57,255,20,0.5))" }}
               />
@@ -1981,7 +1981,7 @@ export default function Home() {
           <div className="px-4 sm:px-6">
             <div className="relative overflow-hidden rounded-xl gallery-item" style={{ maxHeight: 520 }}>
               <img
-                src="/delivery.jpg"
+                src={`${import.meta.env.BASE_URL}delivery.jpg`}
                 alt="Pita Pit 2 Delivery"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 style={{ maxHeight: 520, objectPosition: "center center" }}
