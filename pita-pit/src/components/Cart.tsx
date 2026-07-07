@@ -143,7 +143,7 @@ export default function Cart() {
                     <path d="M9.5 21h5"/>
                   </svg>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-black text-[#39ff14] tracking-wide">مخصكش مشروب ؟</p>
+                    <p className="text-[15px] font-black text-[#39ff14] tracking-wide">مخصكش مشروب ؟</p>
                     <p className="text-[9px] font-mono text-white/30 mt-0.5">Pas de boisson dans votre commande</p>
                   </div>
                   <button
