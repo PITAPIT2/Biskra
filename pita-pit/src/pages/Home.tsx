@@ -1904,10 +1904,6 @@ export default function Home() {
             <Card3D title="The Payload"    desc="Heavily spiced, perfectly caramelized shawarma carved fresh." index={1} />
             <Card3D title="The Spark"      desc="Neon-bright garlic toum and pickled wild cucumbers." index={2} />
           </div>
-          <div className="wrap-reveal mt-16 sm:mt-24 w-full h-[48vw] min-h-[200px] max-h-[58vh] relative max-w-7xl mx-auto overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#ff6a00]/8 to-[#39ff14]/8 blur-3xl" />
-            <img src={wrapImg} alt="loaded wrap" className="w-full h-full object-cover relative z-10" />
-          </div>
         </section>
 
         {/* A ── ABOUT ────────────────────────────────────────────────────── */}
