@@ -132,7 +132,12 @@ export default function Cart() {
               {/* Drink upsell banner */}
               {items.length > 0 && !items.some((i) => i.id.startsWith("bo-")) && (
                 <div className="mx-4 mb-3 mt-2 flex items-center gap-3 rounded-xl border border-[#39ff14]/20 bg-[#39ff14]/5 px-4 py-3">
-                  <span className="text-lg flex-shrink-0">🥤</span>
+                  <svg className="flex-shrink-0 w-5 h-5 text-[#39ff14]" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 3h6l-1 11H8L7 3Z"/>
+                    <path d="M6.5 7h7"/>
+                    <path d="M8 17h4"/>
+                    <path d="M9 14v3M11 14v3"/>
+                  </svg>
                   <div className="flex-1 min-w-0">
                     <p className="text-[11px] font-black text-[#39ff14] tracking-wide">مخصكش مشروب ؟</p>
                     <p className="text-[9px] font-mono text-white/30 mt-0.5">Pas de boisson dans votre commande</p>
