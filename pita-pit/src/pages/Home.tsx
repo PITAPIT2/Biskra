@@ -1162,7 +1162,7 @@ function HeroSection({ active }: { active: boolean }) {
               <span className="w-5 h-px flex-shrink-0"
                 style={{ background: "#39ff14", boxShadow: "0 0 6px #39ff14" }} />
               <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.6em] text-[#39ff14]/60">
-                Est. 2024 · الجزائر العاصمة
+                Est. 2024 · بسكرة مقابل هوتيل سلامي
               </span>
             </div>
           </div>
@@ -1335,8 +1335,8 @@ function SiteFooter() {
   }, []);
 
   const marqueeItems = [
-    "PITA PIT 2", "STREET FOOD ELEVATED", "الجزائر العاصمة",
-    "EST. 2024", "TASTE THE NIGHT", "FAIT MAISON", "نكهة الليل", "ALGER",
+    "PITA PIT 2", "STREET FOOD ELEVATED", "بسكرة مقابل هوتيل سلامي",
+    "EST. 2024", "TASTE THE NIGHT", "FAIT MAISON", "نكهة الليل", "BISKRA",
   ];
   const track = [...marqueeItems, ...marqueeItems, ...marqueeItems];
 
@@ -1448,7 +1448,7 @@ function SiteFooter() {
                 PITA<br />PIT 2
               </p>
               <p className="font-mono text-[9px] uppercase tracking-[0.55em] text-white/20 mt-3">
-                Street Food Elevated&nbsp;·&nbsp;الجزائر العاصمة
+                Street Food Elevated&nbsp;·&nbsp;بسكرة مقابل هوتيل سلامي
               </p>
             </div>
 
