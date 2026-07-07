@@ -192,6 +192,7 @@ const MENU_ICONS: Record<string, React.ReactNode> = {
   "pizza-tranche":    (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M10 10 L4 17 L16 17 Z"/><path d="M10 10 L3 5 A8 8 0 0 1 17 5 Z"/><circle cx="10" cy="14" r="0.9" fill="currentColor" stroke="none"/></svg>),
   "pizza-boisee":     (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M10 3 L17 17 H3 Z"/><circle cx="10" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="7" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="13" r="1" fill="currentColor" stroke="none"/></svg>),
   "pizza-maison":     (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="10" r="7"/><path d="M10 3 L17 10 M10 3 L3 10"/><path d="M7 13h6M7 10.5h6"/></svg>),
+  "boissons":         (<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 3h6l-1 11H8L7 3Z"/><path d="M6.5 7h7"/><path d="M8 17h4"/><path d="M9 14v3M11 14v3"/></svg>),
 };
 
 const HOME_CATS: HMCat[] = [
@@ -460,6 +461,15 @@ const HOME_CATS: HMCat[] = [
       { id: "pt-nap",  name: "¼ Pizza Napolitaine", prices: [{ label:"¼", value:200 }], extra: "جبن + طماطم" },
       { id: "pt-pou",  name: "¼ Pizza Poulet",      prices: [{ label:"¼", value:200 }] },
       { id: "pt-tra",  name: "Tranche Pizza",       prices: [{ label:"STD", value:50  }] },
+    ],
+  },
+  {
+    key: "boissons", label: "BOISSONS مشروبات",
+    items: [
+      { id: "bo-farha-33",  name: "Farha فرحة",          prices: [{ label:"33cl", value:50  },{ label:"1L", value:100 }] },
+      { id: "bo-hamoud-33", name: "Hamoud حمود",          prices: [{ label:"33cl", value:60  },{ label:"1L", value:120 }] },
+      { id: "bo-jus-33",    name: "Jus عصير",             prices: [{ label:"33cl", value:70  }] },
+      { id: "bo-coca",      name: "Coca-Cola كوكا كولا",  prices: [{ label:"STD",  value:150 }] },
     ],
   },
 ];
@@ -857,6 +867,13 @@ function HomeMenuSection() {
   const [activeKey, setActiveKey] = useState("tacos-gratine");
   const [addedKey, setAddedKey]   = useState<string | null>(null);
   const { addItem } = useCart();
+
+  // Listen for cart's "AJOUTER une boisson" button
+  useEffect(() => {
+    const handler = () => setActiveKey("boissons");
+    window.addEventListener("goto-boissons", handler);
+    return () => window.removeEventListener("goto-boissons", handler);
+  }, []);
 
   const cat = HOME_CATS.find((c) => c.key === activeKey)!;
 

@@ -129,6 +129,30 @@ export default function Cart() {
                 </AnimatePresence>
               </div>
 
+              {/* Drink upsell banner */}
+              {items.length > 0 && !items.some((i) => i.id.startsWith("bo-")) && (
+                <div className="mx-4 mb-3 mt-2 flex items-center gap-3 rounded-xl border border-[#39ff14]/20 bg-[#39ff14]/5 px-4 py-3">
+                  <span className="text-lg flex-shrink-0">🥤</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] font-black text-[#39ff14] tracking-wide">مخصكش مشروب ؟</p>
+                    <p className="text-[9px] font-mono text-white/30 mt-0.5">Pas de boisson dans votre commande</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      closeCart();
+                      setTimeout(() => {
+                        document.getElementById("menu-section")?.scrollIntoView({ behavior: "smooth" });
+                        setTimeout(() => window.dispatchEvent(new CustomEvent("goto-boissons")), 400);
+                      }, 300);
+                    }}
+                    className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black rounded-lg"
+                    style={{ background: "#39ff14", boxShadow: "0 0 10px rgba(57,255,20,0.3)" }}
+                  >
+                    AJOUTER →
+                  </button>
+                </div>
+              )}
+
               {/* Footer */}
               {items.length > 0 && (
                 <div className="border-t border-white/8 px-6 py-5 space-y-4">

@@ -162,6 +162,12 @@ export const SEED_CATEGORIES: SeedCategory[] = [
     { id:"pt-pou", name:"¼ Pizza Poulet",   prices:[{label:"¼",value:200}] },
     { id:"pt-tra", name:"Tranche Pizza",    prices:[{label:"STD",value:50}] },
   ]},
+  { key:"boissons", label:"BOISSONS مشروبات", items:[
+    { id:"bo-farha-33",  name:"Farha فرحة",    prices:[{label:"33cl",value:50},{label:"1L",value:100}] },
+    { id:"bo-hamoud-33", name:"Hamoud حمود",   prices:[{label:"33cl",value:60},{label:"1L",value:120}] },
+    { id:"bo-jus-33",    name:"Jus عصير",      prices:[{label:"33cl",value:70}] },
+    { id:"bo-coca",      name:"Coca-Cola كوكا كولا", prices:[{label:"STD",value:150}] },
+  ]},
 ];
 
 export const SEED_DATA = { juices: SEED_JUICES, categories: SEED_CATEGORIES };
