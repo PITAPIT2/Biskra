@@ -4,7 +4,6 @@ import React, {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
-import NeonCursor from "../components/NeonCursor";
 import Nav from "../components/Nav";
 import Cart from "../components/Cart";
 import { useCart } from "../context/CartContext";
@@ -1741,7 +1740,6 @@ export default function Home() {
 
   return (
     <>
-      <NeonCursor />
       <Nav />
       <Cart />
       {/* Film Grain */}
