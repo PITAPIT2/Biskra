@@ -1,10 +1,19 @@
-name: Build
+name: Build & Deploy
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,21 +35,28 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build frontend (pita-pit)
+        env:
+          BASE_PATH: /Biskra/
         run: pnpm --filter @workspace/pita-pit run build
 
       - name: Build API server
         run: pnpm --filter @workspace/api-server run build
 
-      - name: Upload frontend dist
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: frontend-dist
-          path: pita-pit/dist/
-          retention-days: 7
+          path: pita-pit/dist/public
 
-      - name: Upload API dist
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-dist
-          path: api-server/dist/
-          retention-days: 7
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
