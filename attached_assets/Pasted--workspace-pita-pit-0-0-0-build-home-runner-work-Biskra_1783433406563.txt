@@ -1,0 +1,20 @@
+
+> @workspace/pita-pit@0.0.0 build /home/runner/work/Biskra/Biskra/pita-pit
+> vite build --config vite.config.ts
+
+failed to load config from /home/runner/work/Biskra/Biskra/pita-pit/vite.config.ts
+error during build:
+Error: PORT environment variable is required but was not provided.
+    at file:///home/runner/work/Biskra/Biskra/pita-pit/node_modules/.vite-temp/vite.config.ts.timestamp-1783433352139-635c095064d348.mjs:10:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async loadConfigFromBundledFile (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:49590:15)
+    at async bundleAndLoadConfigFile (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:49433:22)
+    at async loadConfigFromFile (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:49396:44)
+    at async resolveConfig (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:48891:24)
+    at async createBuilder (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:46866:18)
+    at async CAC.<anonymous> (file:///home/runner/work/Biskra/Biskra/node_modules/.pnpm/vite@6.4.3_@types+node@22.20.0_jiti@2.7.0_lightningcss@1.32.0/node_modules/vite/dist/node/cli.js:862:23)
+/home/runner/work/Biskra/Biskra/pita-pit:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/pita-pit@0.0.0 build: `vite build --config vite.config.ts`
+Exit status 1
+Error: Process completed with exit code 1.
