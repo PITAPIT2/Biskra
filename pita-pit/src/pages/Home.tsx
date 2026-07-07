@@ -1271,15 +1271,19 @@ function HeroSection({ active }: { active: boolean }) {
       {/* ── Bottom info strip ── */}
       <div ref={bottomRef} className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/[0.07]">
         <div className="flex items-center justify-between px-5 sm:px-10 py-3 gap-4">
-          <div className="flex items-center overflow-x-auto hide-scrollbar gap-0">
-            {(["Tacos", "Fajitas", "Pizza Bwagy", "Soufflée", "Malfouf"] as const).map((item, i) => (
-              <React.Fragment key={item}>
-                {i > 0 && <span className="w-1 h-1 rounded-full bg-white/14 mx-4 sm:mx-6 flex-shrink-0" />}
-                <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.38em] text-white/20 flex-shrink-0">
-                  {item}
-                </span>
-              </React.Fragment>
-            ))}
+          <div className="flex-1 overflow-hidden min-w-0">
+            <div style={{ display: "flex", animation: "strip-rtl 18s linear infinite", width: "max-content" }}>
+              {[...Array(3)].flatMap((_, rep) =>
+                (["Tacos", "Fajitas", "Pizza Bwagy", "Soufflée", "Malfouf"] as const).map((item, i) => (
+                  <React.Fragment key={`${rep}-${item}`}>
+                    {(rep > 0 || i > 0) && <span className="w-1 h-1 rounded-full bg-white/14 mx-4 sm:mx-6 flex-shrink-0 self-center" />}
+                    <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.38em] text-white/20 flex-shrink-0">
+                      {item}
+                    </span>
+                  </React.Fragment>
+                ))
+              )}
+            </div>
           </div>
           <span className="font-mono text-[9px] uppercase tracking-[0.32em] text-white/20 flex-shrink-0 hidden sm:block">
             12:00 → 01:00
@@ -1291,6 +1295,10 @@ function HeroSection({ active }: { active: boolean }) {
         @keyframes hero-dot-pulse {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0.3; }
+        }
+        @keyframes strip-rtl {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
         }
       `}</style>
     </section>
