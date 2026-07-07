@@ -163,11 +163,7 @@ export default function Admin() {
       setLoginErr("");
     };
 
-    const verifyClientSide = async () => {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(k));
-      const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-      return hex === "369862075a80c6d427139474abea30b604913cb1d484360abb35572b6d65c81a";
-    };
+    const verifyClientSide = () => k === "pitapit22030";
 
     try {
       const res = await fetch("/api/admin/verify", {
