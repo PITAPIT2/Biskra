@@ -180,10 +180,10 @@ export default function Cart() {
                   </motion.button>
 
                   <button
-                    onClick={clearCart}
-                    className="w-full text-[10px] font-mono uppercase tracking-widest text-white/25 hover:text-[#ff6a00] transition-colors py-1"
+                    onClick={closeCart}
+                    className="w-full text-[10px] font-mono uppercase tracking-widest text-white/25 hover:text-[#39ff14] transition-colors py-1"
                   >
-                    مسح الكل
+                    ← متابعة التسوق
                   </button>
                 </div>
               )}
