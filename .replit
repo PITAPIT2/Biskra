@@ -1,0 +1,37 @@
+modules = ["nodejs-20", "python-base-3.13"]
+[agent]
+expertMode = true
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 8081
+
+[[ports]]
+localPort = 8082
+externalPort = 3000
+
+[[ports]]
+localPort = 18876
+externalPort = 80
+
+[nix]
+channel = "stable-25_05"
+packages = ["freetype", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "tcl", "tk", "zlib"]
+
+[userenv]
+
+[userenv.shared]
+BASE_PATH = "/"
+NODE_ENV = "development"
+VITE_ADMIN_PASSWORD = "pitapit22030"
+VITE_JSONBIN_KEY = "$2a$10$nZorufoyZlsIpmj.VPyTqeO5gPskcU0qXgiLof/g9Zr7EfOIICyQ."
+
+[workflows]
