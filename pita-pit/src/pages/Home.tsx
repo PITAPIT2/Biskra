@@ -1994,40 +1994,16 @@ export default function Home() {
             />
           </div>
 
-          {/* mosaic grid */}
-          <div className="px-4 sm:px-6 grid grid-cols-12 grid-rows-2 gap-2 sm:gap-3 h-[70vw] sm:h-[55vw] max-h-[640px]">
-            {/* big left */}
-            <div className="col-span-5 row-span-2 relative overflow-hidden group gallery-item">
-              <img src="/hero-main.png" alt="Pita Pit 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#39ff14]">Pita Pit 2</span>
-              </div>
-            </div>
-            {/* top mid */}
-            <div className="col-span-4 row-span-1 relative overflow-hidden group gallery-item">
-              <img src={wrapImg} alt="Wrap" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#39ff14]">The Wrap</span>
-              </div>
-            </div>
-            {/* top right */}
-            <div className="col-span-3 row-span-1 relative overflow-hidden group gallery-item">
-              <img src={meatImg} alt="Grilled meat" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: "center 30%" }} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#ff6a00]">Grilled</span>
-              </div>
-            </div>
-            {/* bottom mid+right */}
-            <div className="col-span-7 row-span-1 relative overflow-hidden group gallery-item">
-              <img src="/pita-hero.png" alt="Pita hero" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#39ff14]">Signature Pita</span>
-              </div>
+          {/* full-width image */}
+          <div className="px-4 sm:px-6">
+            <div className="relative overflow-hidden rounded-xl gallery-item" style={{ maxHeight: 520 }}>
+              <img
+                src="/delivery.jpg"
+                alt="Pita Pit 2 Delivery"
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                style={{ maxHeight: 520, objectPosition: "center center" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
           </div>
         </section>
