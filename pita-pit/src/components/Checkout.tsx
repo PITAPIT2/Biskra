@@ -18,14 +18,15 @@ interface FormState {
 
 type Step = "form" | "success";
 
-const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN ?? "8943003727:AAFvUwxIamUyDMZBGZ08TyhAj2GVk5zIXaU";
-const CHAT_ID   = import.meta.env.VITE_TELEGRAM_CHAT_ID   ?? "8972152849";
+/* ── Telegram config ─────────────────────────────────────────────────────── */
+const TG_TOKEN   = import.meta.env.VITE_TELEGRAM_BOT_TOKEN ?? "8943003727:AAFvUwxIamUyDMZBGZ08TyhAj2GVk5zIXaU";
+const TG_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID   ?? "8972152849";
 
-function escapeHtml(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+function escapeHtml(t: string) {
+  return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function formatOrderMessage(
+function buildTelegramMessage(
   orderId: string,
   form: FormState,
   items: CartItem[],
@@ -51,6 +52,21 @@ function formatOrderMessage(
   ].join("\n");
 }
 
+/** Fire-and-forget — never blocks order placement */
+function notifyTelegram(
+  orderId: string,
+  form: FormState,
+  items: CartItem[],
+  subtotal: number,
+): void {
+  const text = buildTelegramMessage(orderId, form, items, subtotal);
+  fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: TG_CHAT_ID, text, parse_mode: "HTML" }),
+  }).catch((err) => console.warn("Telegram notification failed (non-blocking):", err));
+}
+
 export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }: CheckoutProps) {
   const [step, setStep] = useState<Step>("form");
   const [form, setForm] = useState<FormState>({ name: "", phone: "", location: "" });
@@ -74,19 +90,21 @@ export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }
     setSubmitError("");
 
     try {
-      const orderId = `ord-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-      const text = formatOrderMessage(orderId, form, items, subtotal);
-
-      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: "HTML" }),
+      /* 1️⃣  Write to Firestore (primary — keeps admin dashboard working) */
+      const { getDb, collection, addDoc, serverTimestamp } = await import("../lib/firebase");
+      const db = getDb();
+      const ref = await addDoc(collection(db, "orders"), {
+        customerName: form.name,
+        phone: form.phone,
+        location: form.location,
+        items: items.map(({ id, name, price, qty }) => ({ id, name, price, qty })),
+        subtotal,
+        status: "pending",
+        createdAt: serverTimestamp(),
       });
 
-      if (!res.ok) {
-        const body = await res.text().catch(() => "");
-        throw new Error(`Telegram error ${res.status}: ${body}`);
-      }
+      /* 2️⃣  Notify Telegram instantly (fire-and-forget, non-blocking) */
+      notifyTelegram(ref.id, form, items, subtotal);
 
       setLoading(false);
       setStep("success");
@@ -208,9 +226,7 @@ export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }
                         placeholder="مثال: أحمد بن علي"
                         dir="rtl"
                         className="w-full bg-white/4 border px-4 py-3 text-white text-sm placeholder:text-white/20 outline-none transition-all duration-200 font-mono"
-                        style={{
-                          borderColor: errors.name ? "#ff6a00" : "rgba(255,255,255,0.1)",
-                        }}
+                        style={{ borderColor: errors.name ? "#ff6a00" : "rgba(255,255,255,0.1)" }}
                         onFocus={(e) => (e.target.style.borderColor = "#39ff14")}
                         onBlur={(e) => (e.target.style.borderColor = errors.name ? "#ff6a00" : "rgba(255,255,255,0.1)")}
                       />
@@ -231,9 +247,7 @@ export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }
                         placeholder="05XX XX XX XX"
                         dir="ltr"
                         className="w-full bg-white/4 border px-4 py-3 text-white text-sm placeholder:text-white/20 outline-none transition-all duration-200 font-mono tracking-wider"
-                        style={{
-                          borderColor: errors.phone ? "#ff6a00" : "rgba(255,255,255,0.1)",
-                        }}
+                        style={{ borderColor: errors.phone ? "#ff6a00" : "rgba(255,255,255,0.1)" }}
                         onFocus={(e) => (e.target.style.borderColor = "#39ff14")}
                         onBlur={(e) => (e.target.style.borderColor = errors.phone ? "#ff6a00" : "rgba(255,255,255,0.1)")}
                       />
@@ -254,9 +268,7 @@ export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }
                         dir="rtl"
                         rows={3}
                         className="w-full bg-white/4 border px-4 py-3 text-white text-sm placeholder:text-white/20 outline-none transition-all duration-200 font-mono resize-none"
-                        style={{
-                          borderColor: errors.location ? "#ff6a00" : "rgba(255,255,255,0.1)",
-                        }}
+                        style={{ borderColor: errors.location ? "#ff6a00" : "rgba(255,255,255,0.1)" }}
                         onFocus={(e) => (e.target.style.borderColor = "#39ff14")}
                         onBlur={(e) => (e.target.style.borderColor = errors.location ? "#ff6a00" : "rgba(255,255,255,0.1)")}
                       />
