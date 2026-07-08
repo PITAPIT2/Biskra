@@ -18,11 +18,45 @@ interface FormState {
 
 type Step = "form" | "success";
 
+const BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN ?? "8943003727:AAFvUwxIamUyDMZBGZ08TyhAj2GVk5zIXaU";
+const CHAT_ID   = import.meta.env.VITE_TELEGRAM_CHAT_ID   ?? "8972152849";
+
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function formatOrderMessage(
+  orderId: string,
+  form: FormState,
+  items: CartItem[],
+  subtotal: number,
+): string {
+  const lines = items
+    .map((it) => `  • ${escapeHtml(it.name)} ×${it.qty}  →  ${it.price * it.qty} DA`)
+    .join("\n");
+
+  return [
+    `🔔 <b>طلب جديد — Pita Pit Biskra</b>`,
+    ``,
+    `👤 <b>${escapeHtml(form.name)}</b>`,
+    `📞 ${escapeHtml(form.phone)}`,
+    `📍 ${escapeHtml(form.location)}`,
+    ``,
+    `🛒 <b>المنتجات:</b>`,
+    lines,
+    ``,
+    `💰 <b>الإجمالي: ${subtotal} DA</b>`,
+    ``,
+    `🆔 <code>${escapeHtml(orderId)}</code>`,
+  ].join("\n");
+}
+
 export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }: CheckoutProps) {
   const [step, setStep] = useState<Step>("form");
   const [form, setForm] = useState<FormState>({ name: "", phone: "", location: "" });
   const [errors, setErrors] = useState<Partial<FormState>>({});
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const validate = (): boolean => {
     const e: Partial<FormState> = {};
@@ -34,24 +68,26 @@ export default function Checkout({ isOpen, onClose, onSuccess, items, subtotal }
     return Object.keys(e).length === 0;
   };
 
-  const [submitError, setSubmitError] = useState("");
-
   const handleSubmit = useCallback(async () => {
     if (!validate()) return;
     setLoading(true);
     setSubmitError("");
+
     try {
-      const { getDb, collection, addDoc, serverTimestamp } = await import("../lib/firebase");
-      const db = getDb();
-      await addDoc(collection(db, "orders"), {
-        customerName: form.name,
-        phone: form.phone,
-        location: form.location,
-        items: items.map(({ id, name, price, qty }) => ({ id, name, price, qty })),
-        subtotal,
-        status: "pending",
-        createdAt: serverTimestamp(),
+      const orderId = `ord-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+      const text = formatOrderMessage(orderId, form, items, subtotal);
+
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: "HTML" }),
       });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        throw new Error(`Telegram error ${res.status}: ${body}`);
+      }
+
       setLoading(false);
       setStep("success");
       setTimeout(() => {
